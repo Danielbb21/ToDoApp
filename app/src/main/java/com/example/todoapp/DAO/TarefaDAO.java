@@ -27,8 +27,8 @@ public class TarefaDAO implements ITarefaDAO {
     public boolean salvar(Tarefas tarefas) {
         try {
             ContentValues cv = new ContentValues();
-            cv.put("Titulo",tarefas.getTitulo().toString());
-            cv.put("Descricao",tarefas.getDescricao().toString());
+            cv.put("Titulo", tarefas.getTitulo());
+            cv.put("Descricao", tarefas.getDescricao());
 
             objWrite.insert("tarefas", null,cv);
 
@@ -39,28 +39,6 @@ public class TarefaDAO implements ITarefaDAO {
         }
         return true;
     }
-
-    @Override
-    public boolean atualizar(Tarefas tarefas) {
-        try {
-
-            ContentValues cv = new ContentValues();
-            cv.put("Titulo",tarefas.getTitulo().toString());
-            cv.put("Descricao",tarefas.getDescricao().toString());
-
-
-            String[] args ={String.valueOf(tarefas.getId())};
-            objWrite.update("tarefas", cv, "id = ?",  args);
-
-            Log.i("INFO BD", "Dados Salvos com Sucesso");
-
-        } catch (Exception ex) {
-            Log.i("INFO BD", "Falha na gravação dos dados");
-            return false;
-        }
-        return true;
-    }
-
 
     @Override
     public boolean deletar(Tarefas tarefas) {
@@ -94,7 +72,7 @@ public class TarefaDAO implements ITarefaDAO {
             do {
                 if (cursor.getCount() ==0) {break;}
                 Tarefas tarefa = new Tarefas();
-                tarefa.setId(Integer.valueOf(cursor.getString(iid)));
+                tarefa.setId(Integer.parseInt(cursor.getString(iid)));
                 tarefa.setTitulo(cursor.getString(iTitulo));
                 tarefa.setDescricao(cursor.getString(iDescricao));
                 lista_tarefas.add(tarefa);
